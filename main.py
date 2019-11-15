@@ -9,6 +9,13 @@ def shallow_flatten(L):
             yield e
 
 
+def group_ngrams(L, n):
+    output = []
+    for i in range(0, len(L), n):
+        output += L[i:i + n]
+    return output
+
+
 class Node:
     def __init__(self, chain, word, ID):
         self.chain = chain
@@ -41,7 +48,7 @@ class MarkovChain:
             text_lines = [lines.strip() for lines in rf.readlines()]
             # Add line break characters at line breaks
             # so the chain can generate newlines as well.
-            text = " ".join(text_lines).split(" ")
+            text = group_ngrams(" ".join(text_lines).split(" "), 4)
             # Separate punctuation marks.
             punctuation = [".", ",", "!", "?", ":", ";", "..."]
             for i in range(len(text)):
@@ -87,6 +94,6 @@ class MarkovChain:
 
 if __name__ == "__main__":
     chain = MarkovChain()
-    chain.train("drseuss.txt")
-    print(chain.generate_text(15))
+    chain.train("beemovie.txt")
+    print(chain.generate_text(3))
 

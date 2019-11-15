@@ -1,6 +1,9 @@
 import numpy as np
 import random
 
+NGRAMS = 5
+TRAINING_TEXT = "communistmanifesto.txt"
+
 def shallow_flatten(L):
     for e in L:
         if type(e) == list:
@@ -48,7 +51,7 @@ class MarkovChain:
             text_lines = [lines.strip() for lines in rf.readlines()]
             # Add line break characters at line breaks
             # so the chain can generate newlines as well.
-            text = group_ngrams(" ".join(text_lines).split(" "), 4)
+            text = group_ngrams(" ".join(text_lines).split(" "), NGRAMS)
             # Separate punctuation marks.
             punctuation = [".", ",", "!", "?", ":", ";", "..."]
             for i in range(len(text)):
@@ -94,6 +97,6 @@ class MarkovChain:
 
 if __name__ == "__main__":
     chain = MarkovChain()
-    chain.train("beemovie.txt")
+    chain.train(TRAINING_TEXT)
     print(chain.generate_text(3))
 
